@@ -184,7 +184,6 @@ public:
     }
 
     void PrintList()
-
     {
         Node* current = head;
 
@@ -213,6 +212,80 @@ public:
         {
             DeleteFirstNode();
         }
+    }
+
+    void Reverse()
+    {
+        Node* current = head;
+        Node* temp = nullptr;
+
+        while (current != nullptr)
+        {
+            temp = current->prev;
+            current->prev = current->next;
+            current->next = temp;
+            current = current->prev;
+        }
+        
+        if (temp != nullptr)
+            head = temp->prev;
+    }
+
+    Node* GetNode(int Index)
+    {
+        int Counter = 0;
+
+        if (Index > _Size - 1 || Index < 0)
+            return NULL;
+
+        Node* Current = head;
+        while (Current != NULL && (Current->next != NULL))
+        {
+            if (Counter == Index)
+                break;
+
+            Current = Current->next;
+            Counter++;
+        }
+
+        return Current;
+
+    }
+
+    T GetItem(int Index)
+    {
+        Node* ItemNode = GetNode(Index);
+
+        if (ItemNode == NULL)
+            return NULL;
+        else
+            return ItemNode->value;
+    }
+
+    bool UpdateItem(int Index, T NewValue)
+    {
+        Node* ItemNode = GetNode(Index);
+
+        if (ItemNode != NULL)
+        {
+            ItemNode->value = NewValue;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool InsertAfter(int Index, T NewValue)
+    {
+        Node* ItemNode = GetNode(Index);
+
+        if (ItemNode != NULL)
+        {
+            InsertAfter(ItemNode, NewValue);
+            return true;
+        }
+        else
+            return false;
     }
 
 };
